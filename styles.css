@@ -1,0 +1,36 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 20px;
+  color: rgb(94, 25, 25);
+  background-color: rgb(194, 124, 39);
+}
+
+h1 {
+  margin-bottom: 10px;
+}
+
+#floorButtons {
+  margin-top: 20px;
+}
+
+.button {
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 5px;
+  cursor: pointer;
+  background-color: #ddd;
+  border: 1px solid #999;
+  border-radius: 5px;
+}
+
+#lift {
+  width: 40px;
+  height: 60px;
+  background-color: rgb(14, 14, 86);
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: 0.5s;
+}
