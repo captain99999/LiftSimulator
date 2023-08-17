@@ -1,38 +1,52 @@
-const createFloorsButton = document.getElementById("createFloors");
-const floorButtonsContainer = document.getElementById("floorButtons");
-const lift = document.getElementById("lift");
+document.addEventListener("DOMContentLoaded", () => {
+  const createButton = document.getElementById("createButton");
+  createButton.addEventListener("click", createBuilding);
 
-let totalFloors = 0;
-let currentFloor = 1;
+  function createBuilding() {
+    const numFloors = parseInt(document.getElementById("numFloors").value);
+    const floorsContainer = document.getElementById("floors");
+    floorsContainer.innerHTML = "";
 
-createFloorsButton.addEventListener("click", () => {
-  totalFloors = parseInt(document.getElementById("floors").value);
-  createFloorButtons();
-});
+    for (let floor = numFloors; floor >= 1; floor--) {
+      const floorElement = document.createElement("div");
+      floorElement.classList.add("floor");
+      floorElement.innerHTML = `
+        <span>Floor ${floor}</span>
+        <button class="button up-button">▲</button>
+        <button class="button down-button">▼</button>
+      `;
+      floorsContainer.appendChild(floorElement);
 
-function createFloorButtons() {
-  floorButtonsContainer.innerHTML = "";
-
-  for (let i = 1; i <= totalFloors; i++) {
-    const floorButton = document.createElement("div");
-    floorButton.textContent = totalFloors-i+1;
-    floorButton.classList.add("button");
-    floorButton.addEventListener("click", () => goToFloor(i));
-    floorButtonsContainer.appendChild(floorButton);
+      const upButton = floorElement.querySelector(".up-button");
+      const downButton = floorElement.querySelector(".down-button");
+      upButton.addEventListener("click", () => moveLift(floor));
+      downButton.addEventListener("click", () => moveLift(floor));
+    }
   }
-}
 
-function goToFloor(floorNumber) {
-  const floorHeight = (totalFloors - floorNumber) * 60;
-  lift.style.bottom = floorHeight + "px";
-  currentFloor = floorNumber;
-  openDoor();
-  closeDoor();
-}
-function openDoor() {
-  door.style.transform = 'translateX(100%)';
-}
+  function moveLift(targetFloor) {
+    const lift = document.getElementById("lift");
+    const leftDoor = document.querySelector(".door.left");
+    const rightDoor = document.querySelector(".door.right");
+    const liftBottom = 100 * (targetFloor - 1) + "px"; // Adjust this based on your building layout
 
-function closeDoor() {
-  door.style.transform = 'translateX(0)';
-}
+    // Open doors
+    setTimeout(()=>{leftDoor.style.transform = "translateX(-50%)";
+    rightDoor.style.transform = "translateX(50%)";},500)
+    
+
+    // Move the lift
+    setTimeout(() => {
+    lift.style.bottom = liftBottom;
+
+      
+
+      // Close doors after 2 seconds
+      setTimeout(() => {
+        leftDoor.style.transform = "translateX(0)";
+        rightDoor.style.transform = "translateX(0)";
+      }, 2000);
+    }, 500);
+
+  }
+});
